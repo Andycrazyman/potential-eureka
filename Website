@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WinScripts</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #1f1f1f;
+
+        background:
+            radial-gradient(circle at 10% 10%, #ccecff 0, transparent 30%),
+            radial-gradient(circle at 90% 80%, #d8f3ff 0, transparent 30%),
+            #f5f9fc;
+
+        min-height: 100vh;
+    }
+
+    /* NAVIGATION */
+
+    nav {
+        height: 64px;
+        padding: 0 7%;
+        display: flex;
+        align-items: center;
+
+        background: rgba(255,255,255,.78);
+        backdrop-filter: blur(18px);
+
+        border-bottom: 1px solid #e2e9ee;
+
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+
+        font-size: 19px;
+        font-weight: 600;
+    }
+
+    .windows {
+        width: 27px;
+        height: 27px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+
+        gap: 2px;
+    }
+
+    .windows div {
+        background: #0879d1;
+    }
+
+    nav .right {
+        margin-left: auto;
+        color: #68737c;
+        font-size: 13px;
+    }
+
+    /* HERO */
+
+    .hero {
+        max-width: 1050px;
+        margin: auto;
+
+        padding: 80px 25px 60px;
+
+        text-align: center;
+    }
+
+    .pill {
+        display: inline-block;
+
+        padding: 7px 13px;
+        border-radius: 30px;
+
+        background: #e3f3ff;
+        color: #0067b8;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        margin: 0;
+
+        font-size: clamp(42px, 7vw, 68px);
+        line-height: 1;
+
+        letter-spacing: -3px;
+        font-weight: 700;
+    }
+
+    .hero h1 span {
+        color: #0078d4;
+    }
+
+    .hero p {
+        max-width: 620px;
+        margin: 23px auto 0;
+
+        color: #68737c;
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    /* SEARCH */
+
+    .search {
+        max-width: 580px;
+        margin: 0 auto 45px;
+
+        position: relative;
+    }
+
+    .search input {
+        width: 100%;
+
+        border: 1px solid #d9e2e8;
+        border-radius: 12px;
+
+        padding: 16px 20px 16px 48px;
+
+        background: rgba(255,255,255,.9);
+
+        outline: none;
+
+        font-size: 14px;
+
+        box-shadow: 0 8px 25px rgba(0,0,0,.06);
+
+        transition: .2s;
+    }
+
+    .search input:focus {
+        border-color: #72b9e9;
+
+        box-shadow:
+            0 0 0 4px rgba(0,120,212,.08),
+            0 8px 25px rgba(0,0,0,.06);
+    }
+
+    .search span {
+        position: absolute;
+
+        left: 18px;
+        top: 13px;
+
+        color: #7b8790;
+        font-size: 21px;
+    }
+
+    /* MAIN */
+
+    main {
+        max-width: 1050px;
+        margin: auto;
+
+        padding: 0 25px 80px;
+    }
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+
+        margin-bottom: 22px;
+    }
+
+    .heading h2 {
+        margin: 0;
+        font-size: 27px;
+    }
+
+    .heading p {
+        margin: 5px 0 0;
+        color: #77818a;
+        font-size: 13px;
+    }
+
+    /* CARDS */
+
+    .grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 18px;
+    }
+
+    .card {
+        background: rgba(255,255,255,.82);
+
+        border: 1px solid rgba(255,255,255,.9);
+
+        border-radius: 14px;
+
+        padding: 22px;
+
+        box-shadow:
+            0 8px 30px rgba(0,0,0,.07);
+
+        transition: .25s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 18px 40px rgba(0,0,0,.12);
+    }
+
+    .file {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+
+        margin-bottom: 17px;
+    }
+
+    .file-icon {
+        width: 48px;
+        height: 55px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #0078d4;
+
+        background:
+            linear-gradient(
+                145deg,
+                #e8f6ff,
+                #cceaff
+            );
+
+        border: 1px solid #b8dcf2;
+
+        border-radius: 7px;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        box-shadow:
+            0 5px 15px rgba(0,120,212,.1);
+    }
+
+    .file h3 {
+        margin: 0 0 5px;
+        font-size: 15px;
+    }
+
+    .file small {
+        color: #818b93;
+        font-size: 11px;
+    }
+
+    .description {
+        color: #66717a;
+
+        font-size: 13px;
+        line-height: 1.65;
+
+        min-height: 65px;
+    }
+
+    .tags {
+        display: flex;
+        gap: 6px;
+
+        margin: 15px 0;
+    }
+
+    .tag {
+        background: #edf5fa;
+
+        color: #47718b;
+
+        padding: 5px 8px;
+
+        border-radius: 5px;
+
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    /* BUTTON */
+
+    button {
+        width: 100%;
+
+        border: 0;
+        border-radius: 8px;
+
+        padding: 12px;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                #0078d4,
+                #1596ed
+            );
+
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 13px;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 7px 18px rgba(0,120,212,.2);
+
+        transition: .2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 24px rgba(0,120,212,.3);
+    }
+
+    button:active {
+        transform: scale(.98);
+    }
+
+    /* FOOTER */
+
+    footer {
+        text-align: center;
+
+        padding: 35px 20px;
+
+        background: rgba(255,255,255,.65);
+
+        border-top: 1px solid #e1e8ed;
+
+        color: #7a858d;
+
+        font-size: 12px;
+    }
+
+    footer strong {
+        color: #326887;
+    }
+
+    /* TOAST */
+
+    #toast {
+        position: fixed;
+
+        right: 22px;
+        bottom: 22px;
+
+        background: #202a31;
+        color: white;
+
+        padding: 13px 17px;
+
+        border-radius: 8px;
+
+        font-size: 13px;
+
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+        opacity: 0;
+        transform: translateY(20px);
+
+        transition: .25s;
+    }
+
+    #toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 800px) {
+
+        .grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+    }
+
+    @media(max-width: 550px) {
+
+        nav {
+            padding: 0 20px;
+        }
+
+        nav .right {
+            display: none;
+        }
+
+        .hero {
+            padding-top: 55px;
+        }
+
+        .hero h1 {
+            letter-spacing: -2px;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .heading {
+            display: block;
+        }
+    }
+</style>
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="brand">
+
+        <div class="windows">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        WinScripts
+
+    </div>
+
+    <div class="right">
+        Windows Script Library
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="pill">
+        ● Windows VBScript Collection
+    </div>
+
+    <h1>
+        Your Windows<br>
+        <span>Script Library.</span>
+    </h1>
+
+    <p>
+        Simple VBScript examples for learning,
+        experimenting, and everyday Windows automation.
+    </p>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<div class="search">
+
+    <span>⌕</span>
+
+    <input
+        id="search"
+        type="text"
+        placeholder="Search scripts..."
+    >
+
+</div>
+
+
+<!-- SCRIPT LIBRARY -->
+
+<main>
+
+    <div class="heading">
+
+        <div>
+            <h2>Available Scripts</h2>
+
+            <p>
+                Download a script and save it anywhere on your PC.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- CARD 1 -->
+
+        <div
+            class="card"
+            data-name="hello world message">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>hello-world.vbs</h3>
+                    <small>VBScript · Beginner</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                Displays a simple Windows message box.
+                Great for testing your first VBS script.
+            </div>
+
+            <div class="tags">
+                <span class="tag">Beginner</span>
+                <span class="tag">Message</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'hello-world.vbs',
+                    helloWorld
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+
+        <!-- CARD 2 -->
+
+        <div
+            class="card"
+            data-name="current time date clock">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>current-time.vbs</h3>
+                    <small>VBScript · Utility</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                Shows the current date and time
+                using a Windows message box.
+            </div>
+
+            <div class="tags">
+                <span class="tag">Utility</span>
+                <span class="tag">Time</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'current-time.vbs',
+                    currentTime
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+
+        <!-- CARD 3 -->
+
+        <div
+            class="card"
+            data-name="system info computer username">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>system-info.vbs</h3>
+                    <small>VBScript · System</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                Displays your computer name and
+                Windows username.
+            </div>
+
+            <div class="tags">
+                <span class="tag">System</span>
+                <span class="tag">Information</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'system-info.vbs',
+                    systemInfo
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+
+        <!-- CARD 4 -->
+
+        <div
+            class="card"
+            data-name="math numbers variables">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>basic-math.vbs</h3>
+                    <small>VBScript · Learning</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                A simple example showing variables
+                and basic arithmetic.
+            </div>
+
+            <div class="tags">
+                <span class="tag">Learning</span>
+                <span class="tag">Beginner</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'basic-math.vbs',
+                    basicMath
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+
+        <!-- CARD 5 -->
+
+        <div
+            class="card"
+            data-name="welcome message popup">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>welcome.vbs</h3>
+                    <small>VBScript · Message</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                Displays a friendly welcome
+                message on Windows.
+            </div>
+
+            <div class="tags">
+                <span class="tag">Message</span>
+                <span class="tag">Simple</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'welcome.vbs',
+                    welcome
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+
+        <!-- CARD 6 -->
+
+        <div
+            class="card"
+            data-name="counter loop programming">
+
+            <div class="file">
+
+                <div class="file-icon">
+                    VBS
+                </div>
+
+                <div>
+                    <h3>counter.vbs</h3>
+                    <small>VBScript · Learning</small>
+                </div>
+
+            </div>
+
+            <div class="description">
+                Demonstrates a simple For loop
+                by counting from 1 to 5.
+            </div>
+
+            <div class="tags">
+                <span class="tag">Learning</span>
+                <span class="tag">Loops</span>
+            </div>
+
+            <button onclick="
+                downloadVBS(
+                    'counter.vbs',
+                    counter
+                )
+            ">
+                ↓ Download Script
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <strong>WinScripts</strong>
+
+    <br><br>
+
+    Simple educational Windows VBScript examples.
+
+    <br>
+
+    Review scripts before running them.
+
+</footer>
+
+
+<div id="toast">
+    Download started
+</div>
+
+
+<script>
+
+/* ==========================
+   VBS CONTENT
+========================== */
+
+const helloWorld =
+`MsgBox "Hello, World!", vbInformation, "WinScripts"
+`;
+
+
+const currentTime =
+`MsgBox "Current date and time:" & vbCrLf & Now, vbInformation, "WinScripts"
+`;
+
+
+const systemInfo =
+`Set Shell = CreateObject("WScript.Shell")
+
+Computer = Shell.ExpandEnvironmentStrings("%COMPUTERNAME%")
+User = Shell.ExpandEnvironmentStrings("%USERNAME%")
+
+MsgBox "Computer: " & Computer & vbCrLf & _
+       "User: " & User, _
+       vbInformation, "System Information"
+`;
+
+
+const basicMath =
+`Dim firstNumber
+Dim secondNumber
+Dim result
+
+firstNumber = 10
+secondNumber = 5
+
+result = firstNumber + secondNumber
+
+MsgBox firstNumber & " + " & secondNumber & " = " & result, _
+       vbInformation, "Basic Math"
+`;
+
+
+const welcome =
+`MsgBox "Welcome to WinScripts!", vbInformation, "Welcome"
+`;
+
+
+const counter =
+`Dim i
+Dim message
+
+message = ""
+
+For i = 1 To 5
+    message = message & "Number: " & i & vbCrLf
+Next
+
+MsgBox message, vbInformation, "Counter"
+`;
+
+
+/* ==========================
+   DOWNLOAD
+========================== */
+
+function downloadVBS(filename, content) {
+
+    const blob = new Blob(
+        [content],
+        { type: "text/plain" }
+    );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+        filename + " downloaded"
+    );
+}
+
+
+/* ==========================
+   TOAST
+========================== */
+
+let toastTimer;
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(
+        function() {
+            toast.classList.remove("show");
+        },
+        2500
+    );
+}
+
+
+/* ==========================
+   SEARCH
+========================== */
+
+const search =
+    document.getElementById("search");
+
+const cards =
+    document.querySelectorAll(".card");
+
+
+search.addEventListener(
+    "input",
+    function() {
+
+        const query =
+            search.value
+                .toLowerCase()
+                .trim();
+
+        cards.forEach(
+            function(card) {
+
+                const name =
+                    card.dataset.name
+                        .toLowerCase();
+
+                if (name.includes(query)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
